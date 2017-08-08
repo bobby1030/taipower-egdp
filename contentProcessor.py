@@ -12,9 +12,9 @@ def generatorTypeCleaner(source):
 		generators[0] = re.search('\'(.*)\'', generators[0]).group(1) # generatorType
 	return(source)
 
-def generatorTypeSumRemover(source):
+def generatorSumRemover(source):
 	def fn(x):
-		if x[1] != '小計':
+		if '小計' not in x[1]:
 			return True
 		else:
 			return None
@@ -35,7 +35,7 @@ def generatorNameNotesRemover(source):
 def contentProcessor(sourceData):
 	processingData = convertJsonToPythonObject(sourceData)
 	processingData = generatorTypeCleaner(processingData)
-	processingData = generatorTypeSumRemover(processingData)
+	processingData = generatorSumRemover(processingData)
 	processingData = generatorNameHtmlEntityUnescaper(processingData)
 	processingData = generatorNameNotesRemover(processingData)
 	result = json.dumps(processingData, ensure_ascii=False) ## convert Python Objects to JSON
